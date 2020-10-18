@@ -1,0 +1,24 @@
+server:         #默认环境
+  port: 8888
+spring:
+  profiles:
+    active: dev  #使用dev环境
+
+---              #用---来分隔不同的环境
+server:          #dev   开发环境
+  port: 8889
+spring:
+  profiles: dev  #用spring: profiles: 来指定这个环境名
+  application:
+    name: springcloud-config-dev
+
+
+
+
+---
+server:          #test  测试环境
+  port: 8899
+spring:
+  profiles: test
+  application:
+    name: springcloud-config-test
