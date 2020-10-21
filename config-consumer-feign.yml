@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: dev
+
+server:
+  port: 80
+
+#Eureka配置
+eureka:
+  client:
+    register-with-eureka: false #表示是否向eureka注册中心注册自己
+    service-url:
+      defaultZone: http://eureka1:7001/eureka/,http://eureka2:7002/eureka/,http://eureka3:7003/eureka/
+
+#hystrix服务降级
+feign:
+  hystrix:
+    enabled: true

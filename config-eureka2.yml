@@ -1,0 +1,59 @@
+spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: dev
+  application:
+    name: springcloud-eureka2
+
+server:
+  port: 7002
+
+#Eureka配置
+eureka:
+  instance:
+    hostname: eureka1 #Eureka服务端的实例名称
+    #hostname: localhost #Eureka服务端的实例名称
+  client:
+    register-with-eureka: false #表示是否向eureka注册中心注册自己
+    fetch-registry: false #为false表示自己为注册中心
+    service-url: #监控页面 该service-url属性是个Map从源码中可以看出了默认值是("defaultZone", "http://localhost:8761/eureka/"); 现在我们修改为自己配置的值
+      #相当于说 下面配置的这个就是 eureka注册中心的地址, 其他需要注册或获取服务的就需要 从该注册中心注册或获取
+      #与zookeeper不同的是 zookeeper服务端是直接下载的一个项目, 然后开启服务zkServer.sh 而eureka是用java搞的一个项目然后运行SpringBoot主配置类
+
+      #单机: 就是说 如果不是配置eureka集群只是 配置一个eureka就是这样配置 本机ip:端口/eureka/
+      #defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+      #集群(关联): 如果是配置eureka集群就是这样配置  如果有一共有 1 2 3 个eureka服务, 则 1需要在这里 配置 2与3的地址, 2则需要配置1,3的地址, 3也是如此
+      defaultZone: http://eureka1:7001/eureka/,http://eureka3:7003/eureka/
+      #defaultZone: http://localhost:7001/eureka/,http://localhost:7003/eureka/
+
+---
+spring:
+  profiles: test
+  application:
+    name: springcloud-eureka2
+
+server:
+  port: 7002
+
+#Eureka配置
+eureka:
+  instance:
+    hostname: eureka1 #Eureka服务端的实例名称
+    #hostname: localhost #Eureka服务端的实例名称
+  client:
+    register-with-eureka: false #表示是否向eureka注册中心注册自己
+    fetch-registry: false #为false表示自己为注册中心
+    service-url: #监控页面 该service-url属性是个Map从源码中可以看出了默认值是("defaultZone", "http://localhost:8761/eureka/"); 现在我们修改为自己配置的值
+      #相当于说 下面配置的这个就是 eureka注册中心的地址, 其他需要注册或获取服务的就需要 从该注册中心注册或获取
+      #与zookeeper不同的是 zookeeper服务端是直接下载的一个项目, 然后开启服务zkServer.sh 而eureka是用java搞的一个项目然后运行SpringBoot主配置类
+
+      #单机: 就是说 如果不是配置eureka集群只是 配置一个eureka就是这样配置 本机ip:端口/eureka/
+      #defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+      #集群(关联): 如果是配置eureka集群就是这样配置  如果有一共有 1 2 3 个eureka服务, 则 1需要在这里 配置 2与3的地址, 2则需要配置1,3的地址, 3也是如此
+      defaultZone: http://eureka1:7001/eureka/,http://eureka3:7003/eureka/
+      #defaultZone: http://localhost:7001/eureka/,http://localhost:7003/eureka/
