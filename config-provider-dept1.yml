@@ -6,8 +6,7 @@ spring:
 server:
   port: 8001
 
-#springµƒ≈‰÷√
 spring:
-  profiles: dev #devª∑æ≥
+  profiles: dev
   application:
     name: springcloud-provider-dept
