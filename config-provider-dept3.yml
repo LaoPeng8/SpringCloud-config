@@ -1,0 +1,43 @@
+spring:
+  profiles:
+    active: dev
+
+---
+server:
+  port: 8003
+
+#mybatis配置
+mybatis:
+  type-aliases-package: org.pjj.springcloud.pojo
+  mapper-locations: classpath:mybatis/mapper/*.xml #加载mapper文件
+  #config-location: classpath:mybatis/mybatis-config.xml #指定mybatis配置文件位置, 发现错误 不能同时使用 mapper-locations:与config-location: 要不然在创建SqlSessionFactory会报错, 但是老师不知道为什么不报错....
+  configuration:
+    map-underscore-to-camel-case: true #开启驼峰命名
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #mybatis日志
+
+#spring的配置
+spring:
+  profiles: dev
+  application:
+    name: springcloud-provider-dept #eureka上注册的服务 服务的名字就是 此处配置的名字
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource #指定数据源, 不指定则是默认的数据源 Hikari
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cloud03?serverTimezone=UTC&characterEncoding=utf-8&generateSimpleParameterMetadata=true&allowMultiQueries=true
+    username: root
+    password: 20peng
+
+#eureka的配置
+eureka:
+  client:
+    service-url: #配置eureka注册中心的地址, 等下注册服务就将服务注册到该注册中心
+      defaultZone: http://eureka1:7001/eureka/,http://eureka2:7002/eureka/,http://eureka3:7003/eureka/
+      #defaultZone: http://localhost:7001/eureka/,http://localhost:7002/eureka/,http://localhost:7003/eureka/
+  instance:
+    instance-id: springcloud-provider-dept-8003 #这个配置的就是 在eureka服务监控页面中 对注册的服务的Status(描述) 那一栏的 描述, 不配置也会有默认的
+
+#info的配置 (这个配置的就是 eureka服务监控页面中 注册的服务的Status(描述)点击后跳转的页面内容, 不配置点击服务的Status(描述)后,会跳转到404页面)
+#          (以后公司中可能会有很多的服务提供者, 可以用这种方式区分某个服务是某某某写的, 配置的内容会以json形式输出在页面上)
+info:
+  app.name: LaoPeng-springcloud
+  compay.name: blog.laopeng.org
